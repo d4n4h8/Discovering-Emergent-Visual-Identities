@@ -444,7 +444,7 @@ def extract_features(img):
     return hybrid_features
 
 def show_cluster_images(pred):
-    cluster_folder = f"cluster_samples/cluster_{pred}"
+    cluster_folder = f"AI_Deployment/cluster_samples/cluster_{pred}"
     if not os.path.exists(cluster_folder):
         st.warning("No cluster images folder found.")
         return
