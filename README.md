@@ -1,83 +1,86 @@
-# Discovering Emergent Visual Identities in Static Images
+# 🏠 Discovering Emergent Visual Identities in Static Images
 
-**Live Deployed App:** You can test the interactive web application live on the cloud here:  
-[Launch Deployed Web App](https://discovering-emergent-visual-identities2026.streamlit.app/)
+This repository contains an AI-based unsupervised computer vision system designed to automatically discover emergent visual identities in static interior design images without relying on predefined labels. 
 
-## Project Overview
-This project is an AI-based unsupervised computer vision system designed to discover emergent visual identities in static interior design images.
+---
 
-The system analyzes image datasets, extracts meaningful visual features, groups similar images into clusters, and visualizes the discovered identities.
+### 🌐 Live Deployment
+🚀 **Test the interactive web application live on the cloud here:**  
+👉 [Launch Deployed Web App](https://discovering-emergent-visual-identities2026.streamlit.app/)
 
-## Project Goal
-The goal of this project is to identify hidden visual patterns and design identities without relying on predefined labels.
+---
 
-Instead of traditional image classification, the system uses unsupervised learning to discover visual similarities automatically.
+### 📌 Project Overview & Goal
+Traditional computer vision heavily relies on human-labeled datasets, limiting a system's capacity to recognize unknown patterns. This project addresses this limitation by deploying an **Unsupervised Learning** pipeline to explore hidden visual patterns, textures, and layouts across **5,500 interior design images** (sampled randomly from the *Interior Design Styles Dataset* on Kaggle).
 
-## Dataset
-The project uses the Interior Design Styles Dataset from Kaggle.
+---
 
-The dataset contains interior design images from multiple design styles and provides a diverse collection of colors, layouts, textures, and visual patterns.
+### ⚙️ System Pipeline Architecture
+The system follows a modular pipeline consisting of 9 interconnected stages:
+1. **Data Acquisition:** Fetching raw interior images via KaggleHub.
+2. **Data Loading & Preprocessing:** Shuffling, validating, resizing to $224 \times 224$ pixels, and normalizing inputs to $[0, 1]$.
+3. **Hybrid Feature Extraction:** 
+   * **Deep Semantic Features:** Extracted via a pre-trained **ResNet50** CNN.
+   * **Handcrafted Features:** RGB Color Histograms + Local Binary Patterns (LBP) for texture.
+4. **Feature Standardization:** Equalizing distributions using `StandardScaler`.
+5. **Dimensionality Reduction:** Applying **PCA** (retaining 200 Principal Components) to boost efficiency.
+6. **Clustering Exploration:** Benchmarking K-Means, Agglomerative Clustering, and DBSCAN.
+7. **Visualization & Interpretability:** Mapping feature spaces via **t-SNE**, Heatmaps, and Dendrograms.
+8. **Evaluation:** Silhouette Score analysis.
+9. **Inference Engine:** Real-time cluster assignment for unseen or uploaded images.
 
-## System Pipeline
-The system pipeline consists of:
+---
 
-1. Data Acquisition
-2. Data Exploration
-3. Image Preprocessing
-4. Feature Extraction
-5. Dimensionality Reduction
-6. Clustering
-7. Visualization
-8. Evaluation
-9. Demo / Inference
+### 🛠️ Technologies & Libraries
+<p align="left">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/TensorFlow%20/%20Keras-FF6F00?style=flat&logo=tensorflow&logoColor=white" alt="TensorFlow">
+  <img src="https://img.shields.io/badge/scikit--learn-F7931E?style=flat&logo=scikit-learn&logoColor=white" alt="scikit-learn">
+  <img src="https://img.shields.io/badge/OpenCV-5C3EE8?style=flat&logo=opencv&logoColor=white" alt="OpenCV">
+  <img src="https://img.shields.io/badge/Streamlit-FF4B4B?style=flat&logo=streamlit&logoColor=white" alt="Streamlit">
+  <img src="https://img.shields.io/badge/pandas-150458?style=flat&logo=pandas&logoColor=white" alt="pandas">
+  <img src="https://img.shields.io/badge/NumPy-013243?style=flat&logo=numpy&logoColor=white" alt="NumPy">
+</p>
 
-## Technologies and Libraries
-The project uses:
+---
 
-- Python
-- KaggleHub
-- OpenCV
-- NumPy
-- Matplotlib
-- Scikit-image
-- TensorFlow / Keras
-- Scikit-learn
-- Seaborn
+### 📊 Experimental Results & Model Evaluation
 
-## Feature Extraction
-The system extracts hybrid visual features using:
+#### 1. Algorithmic Comparison
+We tested multiple clustering approaches to find the optimal boundary definition:
+* 🏆 **K-Means ($K=3$):** Selected as the baseline model. Provided the highest structural stability with a **Silhouette Score of 0.1222**.
+* **Agglomerative Clustering:** Achieved a silhouette score of 0.1110 (less effective at dense boundary separation).
+* **DBSCAN:** Achieved a score of 0.3140 by isolating 259 anomalous samples as noise, which improved dataset hygiene.
 
-- ResNet50 for deep visual features
-- Color histograms
-- Local Binary Patterns (LBP)
+#### 2. Discovered Identities Distribution
+The unsupervised model automatically categorized the data into 3 dominant visual clusters:
+* **Cluster 0:** 2,868 images (Strongly correlated with *Transitional* styles)
+* **Cluster 1:** 1,690 images (Strongly correlated with *Eclectic* styles)
+* **Cluster 2:** 942 images (Strongly correlated with *Tropical* styles)
 
-## Baseline Model
-For the baseline implementation, the system uses:
+*Note: Heatmap analysis verified that even without training labels, the clusters tightly align with real-world human design concepts.*
 
-- PCA for dimensionality reduction
-- K-Means as the baseline clustering model
+---
 
-## Evaluation
-The system is evaluated using:
+### 🚀 Live Demo & Testing Guidance
+The interactive **Streamlit App** allows you to test the model dynamically via two inference modes:
+1. **Random Image Inference:** Samples an image from the unseen validation pool and predicts its visual identity instantly.
+2. **External Image Upload:** Upload any custom interior design image (`.jpg`, `.png`) to evaluate the model's feature extraction and mapping robustness in real-time.
 
-- Silhouette Score
-- t-SNE visualization
-- Representative cluster images
-- Heatmap analysis
+---
 
-## Live Demo & Testing Guidance
+### 💻 Local Installation & Setup
+To run the Streamlit dashboard locally on your machine, execute the following commands:
 
-The deployed web application provides an interactive interface to evaluate the pipeline's robustness on real-world data:
+```bash
+# 1. Clone the repository
+git clone [https://github.com/d4n4h8/Discovering-Emergent-Visual-Identities.git](https://github.com/d4n4h8/Discovering-Emergent-Visual-Identities.git)
 
-* **Random Image Inference:** Instantly analyze and view predictions for randomly sampled images from the validation pool.
-* **External Image Upload:** Upload custom interior design images (`JPG`, `PNG`, `JPEG`, etc.) to predict their visual identity cluster in real-time.
-* **Demo Evaluation (Unseen Data):** During evaluation and live demos, users can upload completely unseen interior design data to dynamically test the system's pattern recognition capability.
+# 2. Navigate to the project folder
+cd Discovering-Emergent-Visual-Identities
 
-### Running the App Locally
+# 3. Install necessary dependencies
+pip install -r requirements.txt
 
-If you wish to host and run the prototype on your local machine, follow these steps:
-
-1. Clone the repository and open the project directory in your terminal.
-2. Install the required dependencies:
-   ```bash
-   pip install -r requirements.txt
+# 4. Run the Streamlit web server
+streamlit run app.py
